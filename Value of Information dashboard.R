@@ -1,7 +1,6 @@
 library(shiny)
 library(bslib)
 library(ggplot2)
-library(DT)
 library(scales)
 
 ui <- fluidPage(
@@ -19,85 +18,193 @@ ui <- fluidPage(
         background: linear-gradient(180deg, #f7f9fc 0%, #eef3f8 100%);
       }
       .app-shell {
-        max-width: 1380px;
+        max-width: 1400px;
         margin: 0 auto;
+        padding: 16px 0 24px 0;
       }
-      .hero {
+      .hero,
+      .panel-card,
+      .stat-card,
+      .input-block {
         background: white;
         border: 1px solid rgba(31, 78, 121, 0.08);
-        border-radius: 20px;
-        box-shadow: 0 10px 28px rgba(18, 38, 63, 0.06);
-        padding: 22px 24px;
-        margin-bottom: 18px;
+        border-radius: 18px;
+        box-shadow: 0 8px 24px rgba(18, 38, 63, 0.05);
+      }
+      .hero {
+        padding: 18px 20px;
+        margin-bottom: 16px;
       }
       .hero h2 {
         margin-top: 0;
         margin-bottom: 6px;
-        font-weight: 700;
+        font-weight: 750;
       }
       .hero p {
         margin-bottom: 0;
         color: #5d6b7a;
       }
-      .panel-card {
-        background: white;
-        border: 1px solid rgba(31, 78, 121, 0.08);
-        border-radius: 18px;
-        box-shadow: 0 8px 24px rgba(18, 38, 63, 0.05);
-        padding: 18px;
-        margin-bottom: 18px;
+      .topbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 12px;
       }
-      .stat-card {
-        border-radius: 18px;
-        background: white;
-        border: 1px solid rgba(31, 78, 121, 0.08);
-        box-shadow: 0 8px 18px rgba(18, 38, 63, 0.05);
-        padding: 16px 18px;
-        min-height: 110px;
+      .hero-actions {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-top: 12px;
       }
-      .stat-title {
-        font-size: 0.88rem;
-        color: #6c7a88;
-        margin-bottom: 6px;
-        text-transform: uppercase;
-        letter-spacing: 0.04em;
-      }
-      .stat-value {
-        font-size: 2rem;
-        line-height: 1.1;
-        font-weight: 700;
-        color: #1f4e79;
-      }
-      .stat-subtle {
+      .theme-switch {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        white-space: nowrap;
+        color: #5d6b7a;
         font-size: 0.92rem;
-        color: #6c7a88;
-        margin-top: 6px;
+        margin-top: 4px;
       }
+      .theme-switch .shiny-input-container,
+      .theme-switch .checkbox {
+        margin: 0 !important;
+      }
+      .theme-switch label {
+        margin-bottom: 0;
+        font-weight: 600;
+      }
+      .panel-card {
+        padding: 16px;
+        margin-bottom: 16px;
+      }
+      .panel-card h4 {
+        margin-top: 0;
+        margin-bottom: 8px;
+        font-weight: 750;
+      }
+      .panel-card .small-note,
       .small-note {
         color: #6c7a88;
         font-size: 0.95rem;
       }
-      .well {
-        background: #ffffff;
-        border: 1px solid rgba(31, 78, 121, 0.08);
-        border-radius: 16px;
-        box-shadow: 0 8px 18px rgba(18, 38, 63, 0.04);
+      .input-scroll {
+        max-height: calc(100vh - 260px);
+        overflow-y: auto;
+        overflow-x: hidden;
+        padding-right: 6px;
       }
-      .shiny-input-container { margin-bottom: 10px; }
-      .nav-tabs > li > a {
-        border-radius: 14px 14px 0 0 !important;
+      .input-block {
+        padding: 12px 12px 8px 12px;
+        margin-bottom: 10px;
+        background: #fbfdff;
       }
-      .tab-content {
-        background: transparent;
+      .input-block h5 {
+        margin-top: 0;
+        margin-bottom: 4px;
+        font-weight: 700;
+        font-size: 1rem;
       }
-      .btn-primary {
-        border-radius: 999px;
-        padding-left: 16px;
-        padding-right: 16px;
+      .input-block p {
+        color: #6c7a88;
+        margin-bottom: 8px;
+        font-size: 0.88rem;
       }
+      .compact-row {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+      .compact-half {
+        flex: 1 1 0;
+        min-width: 0;
+      }
+      .compact-half .form-group,
+      .compact-half .shiny-input-container {
+        margin-bottom: 0;
+      }
+      .stat-card {
+        padding: 14px 16px;
+        min-height: 110px;
+      }
+      .stat-title {
+        font-size: 0.82rem;
+        color: #6c7a88;
+        margin-bottom: 6px;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+      .stat-value {
+        font-size: 1.9rem;
+        line-height: 1.1;
+        font-weight: 750;
+        color: #1f4e79;
+      }
+      .stat-subtle {
+        font-size: 0.88rem;
+        color: #6c7a88;
+        margin-top: 6px;
+      }
+      .btn-primary,
       .btn-outline-secondary {
         border-radius: 999px;
       }
+      .nav-tabs > li > a {
+        border-radius: 14px 14px 0 0 !important;
+      }
+      body.dark-mode {
+        background: linear-gradient(180deg, #0b1220 0%, #111827 100%);
+        color: #e5e7eb;
+      }
+      body.dark-mode .hero,
+      body.dark-mode .panel-card,
+      body.dark-mode .stat-card,
+      body.dark-mode .input-block {
+        background: #111827;
+        border-color: rgba(148, 163, 184, 0.18);
+        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.28);
+        color: #e5e7eb;
+      }
+      body.dark-mode .hero p,
+      body.dark-mode .small-note,
+      body.dark-mode .input-block p,
+      body.dark-mode .stat-title,
+      body.dark-mode .stat-subtle {
+        color: #cbd5e1;
+      }
+      body.dark-mode .stat-value,
+      body.dark-mode .hero h2,
+      body.dark-mode .panel-card h4,
+      body.dark-mode .input-block h5,
+      body.dark-mode .theme-switch {
+        color: #f8fafc;
+      }
+      body.dark-mode .form-control,
+      body.dark-mode .selectize-input,
+      body.dark-mode .selectize-dropdown,
+      body.dark-mode .shiny-input-container input,
+      body.dark-mode .shiny-input-container select {
+        background-color: #0f172a !important;
+        color: #e5e7eb !important;
+        border-color: rgba(148, 163, 184, 0.25) !important;
+      }
+      body.dark-mode .well {
+        background: #111827;
+        color: #e5e7eb;
+      }
+      body.dark-mode .nav-tabs > li > a {
+        color: #e5e7eb;
+      }
+      body.dark-mode .btn-outline-secondary {
+        color: #e5e7eb;
+        border-color: rgba(148, 163, 184, 0.35);
+      }
+      "
+    )),
+    tags$script(HTML(
+      "
+      Shiny.addCustomMessageHandler('setDarkMode', function(enabled) {
+        document.body.classList.toggle('dark-mode', enabled);
+      });
       "
     ))
   ),
@@ -105,97 +212,127 @@ ui <- fluidPage(
     class = "app-shell",
     div(
       class = "hero",
-      fluidRow(
-        column(
-          width = 8,
-          h2("Value of Information Explorer"),
-          p("An interactive dashboard for exploring how uncertainty affects decision value."),
-          div(style = "margin-top: 14px; display: flex; gap: 10px; flex-wrap: wrap;",
-              actionButton("summary_btn", "How it works", class = "btn btn-primary"),
-              actionButton("reset", "Load toy example", class = "btn btn-outline-secondary")
-          )
-        ),
-        column(
-          width = 4,
-          div(style = "display:flex; justify-content:flex-end; align-items:flex-start; height:100%;",
-              tags$div(class = "small-note", "Enter a base case, add uncertainty, and see what VOI says.")
+      div(
+        class = "topbar",
+        div(
+          div(
+            h2("Value of Information Explorer"),
+            p("An interactive dashboard for exploring how uncertainty affects decision value."),
+            div(
+              class = "hero-actions",
+              actionButton("summary_btn", "How it works", class = "btn btn-primary btn-sm"),
+              actionButton("reset", "Load toy example", class = "btn btn-outline-secondary btn-sm")
+            )
+          ),
+          div(
+            class = "theme-switch",
+            checkboxInput("dark_mode", "Dark mode", value = FALSE)
           )
         )
       )
     ),
+    
     fluidRow(
       column(
         width = 4,
         div(
           class = "panel-card",
-          h4("Inputs", style = "margin-top: 0;"),
-          helpText("Start with a base case, then add uncertainty around cost and QALYs."),
-          sliderInput("wtp", "WTP threshold (£ per QALY)", min = 10000, max = 100000, value = 50000, step = 1000),
-          numericInput("pop", "Population size", value = 10000, min = 1, step = 100),
-          numericInput("n_sim", "Simulation draws", value = 5000, min = 500, step = 500),
-          hr(),
-          h5("Base case: standard care"),
-          numericInput("cost_soc", "Cost", value = 10000, min = 0, step = 100),
-          numericInput("qaly_soc", "QALYs", value = 5.00, min = 0, step = 0.01),
-          hr(),
-          h5("Base case: new treatment"),
-          numericInput("cost_new", "Cost", value = 16000, min = 0, step = 100),
-          numericInput("qaly_new", "QALYs", value = 5.18, min = 0, step = 0.01),
-          hr(),
-          h5("Uncertainty around the new treatment"),
-          numericInput("sd_cost", "SD of incremental cost", value = 1500, min = 0, step = 50),
-          numericInput("sd_qaly", "SD of incremental QALYs", value = 0.08, min = 0, step = 0.01),
-          sliderInput("rho", "Correlation between cost and QALY uncertainty", min = -0.9, max = 0.9, value = 0, step = 0.1)
+          h4("Inputs"),
+          p(class = "small-note", "Adjust the base case and uncertainty. The panel scrolls if needed."),
+          div(
+            class = "input-scroll",
+            div(
+              class = "input-block",
+              h5("Comparator"),
+              p("Standard care"),
+              div(
+                class = "compact-row",
+                div(class = "compact-half", numericInput("cost_soc", "Cost", value = 10000, min = 0, step = 100)),
+                div(class = "compact-half", numericInput("qaly_soc", "QALYs", value = 5.00, min = 0, step = 0.01))
+              )
+            ),
+            div(
+              class = "input-block",
+              h5("Intervention"),
+              p("New treatment"),
+              div(
+                class = "compact-row",
+                div(class = "compact-half", numericInput("cost_new", "Cost", value = 16000, min = 0, step = 100)),
+                div(class = "compact-half", numericInput("qaly_new", "QALYs", value = 5.18, min = 0, step = 0.01))
+              )
+            ),
+            div(
+              class = "input-block",
+              h5("Uncertainty"),
+              p("Around incremental cost and incremental QALYs"),
+              div(
+                class = "compact-row",
+                div(class = "compact-half", numericInput("sd_cost", "SD cost", value = 1500, min = 0, step = 50)),
+                div(class = "compact-half", numericInput("sd_qaly", "SD QALY", value = 0.08, min = 0, step = 0.01))
+              ),
+              sliderInput("rho", "Correlation", min = -0.9, max = 0.9, value = 0, step = 0.1)
+            ),
+            div(
+              class = "input-block",
+              h5("Display"),
+              p("How you want to view the outputs"),
+              radioButtons("scope", label = NULL, choices = c("Per patient", "Total population"), selected = "Per patient", inline = TRUE),
+              div(
+                class = "compact-row",
+                div(class = "compact-half", numericInput("pop", "Population", value = 10000, min = 1, step = 100)),
+                div(class = "compact-half", numericInput("n_sim", "Draws", value = 5000, min = 500, step = 500))
+              ),
+              sliderInput("wtp", "WTP (£/QALY)", min = 10000, max = 100000, value = 50000, step = 1000)
+            )
+          )
         )
       ),
       column(
         width = 8,
         fluidRow(
-          column(width = 4,
-                 div(class = "stat-card",
-                     div(class = "stat-title", "Expected INMB"),
-                     div(class = "stat-value", textOutput("exp_inmb", inline = TRUE)),
-                     div(class = "stat-subtle", "Average value under uncertainty")
-                 )),
-          column(width = 4,
-                 div(class = "stat-card",
-                     div(class = "stat-title", "EVPI per patient"),
-                     div(class = "stat-value", textOutput("evpi_pp", inline = TRUE)),
-                     div(class = "stat-subtle", "Value of perfect information")
-                 )),
-          column(width = 4,
-                 div(class = "stat-card",
-                     div(class = "stat-title", "P(New treatment cost-effective)"),
-                     div(class = "stat-value", textOutput("prob_ce", inline = TRUE)),
-                     div(class = "stat-subtle", "At the chosen WTP")
-                 ))
-        ),
-        fluidRow(
           column(
-            width = 12,
+            width = 4,
             div(
-              class = "panel-card",
-              tabsetPanel(
-                tabPanel(
-                  "Results",
-                  fluidRow(
-                    column(width = 6, plotOutput("nmb_plot", height = 320)),
-                    column(width = 6, plotOutput("wtp_curve", height = 320))
-                  ),
-                  fluidRow(
-                    column(width = 12, h4("Simulation summary"), DTOutput("summary_tbl"))
-                  )
-                ),
-                tabPanel(
-                  "Explore",
-                  p(class = "small-note", "Try changing the base case or uncertainty inputs and watch the decision metrics move."),
-                  fluidRow(
-                    column(width = 12, plotOutput("dist_plot", height = 360))
-                  ),
-                  fluidRow(
-                    column(width = 12, DTOutput("calc_tbl"))
-                  )
-                )
+              class = "stat-card",
+              div(class = "stat-title", "Expected INMB"),
+              div(class = "stat-value", textOutput("exp_inmb", inline = TRUE)),
+              div(class = "stat-subtle", textOutput("scope_note1", inline = TRUE))
+            )
+          ),
+          column(
+            width = 4,
+            div(
+              class = "stat-card",
+              div(class = "stat-title", "EVPI"),
+              div(class = "stat-value", textOutput("evpi_value", inline = TRUE)),
+              div(class = "stat-subtle", textOutput("evpi_note", inline = TRUE))
+            )
+          ),
+          column(
+            width = 4,
+            div(
+              class = "stat-card",
+              div(class = "stat-title", "Probability cost-effective"),
+              div(class = "stat-value", textOutput("prob_ce", inline = TRUE)),
+              div(class = "stat-subtle", "At the chosen WTP")
+            )
+          )
+        ),
+        div(
+          class = "panel-card",
+          tabsetPanel(
+            tabPanel(
+              "Results",
+              fluidRow(
+                column(width = 6, plotOutput("nmb_plot", height = 320)),
+                column(width = 6, plotOutput("wtp_curve", height = 320))
+              )
+            ),
+            tabPanel(
+              "Explore",
+              p(class = "small-note", "Move the inputs around and watch the uncertainty cloud and decision boundary shift."),
+              fluidRow(
+                column(width = 12, plotOutput("scatter_plot", height = 360))
               )
             )
           )
@@ -206,8 +343,13 @@ ui <- fluidPage(
 )
 
 server <- function(input, output, session) {
+  observeEvent(input$dark_mode, {
+    session$sendCustomMessage("setDarkMode", isTRUE(input$dark_mode))
+  }, ignoreInit = FALSE)
+  
   observeEvent(input$reset, {
-    updateSliderInput(session, "wtp", value = 50000)
+    updateCheckboxInput(session, "dark_mode", value = FALSE)
+    updateRadioButtons(session, "scope", selected = "Per patient")
     updateNumericInput(session, "pop", value = 10000)
     updateNumericInput(session, "n_sim", value = 5000)
     updateNumericInput(session, "cost_soc", value = 10000)
@@ -217,6 +359,7 @@ server <- function(input, output, session) {
     updateNumericInput(session, "sd_cost", value = 1500)
     updateNumericInput(session, "sd_qaly", value = 0.08)
     updateSliderInput(session, "rho", value = 0)
+    updateSliderInput(session, "wtp", value = 50000)
   })
   
   observeEvent(input$summary_btn, {
@@ -224,11 +367,13 @@ server <- function(input, output, session) {
       title = "How the calculation works",
       easyClose = TRUE,
       size = "m",
-      tags$p("The app starts with a base case for standard care and a new treatment."),
-      tags$p("It then adds uncertainty around the incremental cost and incremental QALYs for the new treatment."),
-      tags$div(style = "padding: 10px 14px; background: #f6f9fc; border-radius: 12px; margin-bottom: 10px;",
-               tags$code("INMB = WTP x (QALYsnew - QALYsstandard) - (Costnew - Coststandard)")),
-      tags$p("By simulating many possible values, the app estimates the average value of the new treatment and how much perfect information would be worth."),
+      tags$p("The app starts with a base case for standard care and the new treatment."),
+      tags$p("It then adds uncertainty around incremental cost and incremental QALYs for the new treatment."),
+      tags$div(
+        style = "padding: 10px 14px; background: #f6f9fc; border-radius: 12px; margin-bottom: 10px;",
+        tags$code("INMB = WTP x (QALYsnew - QALYsstandard) - (Costnew - Coststandard)")
+      ),
+      tags$p("The simulation repeats that calculation many times, then averages the results to estimate expected value and EVPI."),
       tags$p("In plain language: EVPI is the value of knowing the truth before deciding."),
       footer = modalButton("Close")
     ))
@@ -259,17 +404,16 @@ server <- function(input, output, session) {
     delta_cost <- pmax(delta_cost, -0.99 * input$cost_soc)
     inmb <- input$wtp * delta_qaly - delta_cost
     
-    data.frame(
-      delta_cost = delta_cost,
-      delta_qaly = delta_qaly,
-      inmb = inmb
-    )
+    data.frame(delta_cost = delta_cost, delta_qaly = delta_qaly, inmb = inmb)
   })
   
   calc_vals <- reactive({
     df <- sim_df()
-    expected_inmb <- mean(df$inmb)
-    evpi <- mean(pmax(df$inmb, 0)) - max(expected_inmb, 0)
+    scope_mult <- if (input$scope == "Total population") input$pop else 1
+    alt_mult <- if (input$scope == "Total population") 1 else input$pop
+    
+    expected_inmb_pp <- mean(df$inmb)
+    evpi_pp <- mean(pmax(df$inmb, 0)) - max(expected_inmb_pp, 0)
     prob_ce <- mean(df$inmb > 0)
     
     wtp_seq <- seq(10000, 100000, by = 1000)
@@ -285,10 +429,11 @@ server <- function(input, output, session) {
     
     list(
       df = df,
-      expected_inmb = expected_inmb,
-      evpi = evpi,
+      expected_inmb = expected_inmb_pp * scope_mult,
+      evpi = evpi_pp * scope_mult,
+      evpi_pp = evpi_pp,
+      evpi_alt = evpi_pp * alt_mult,
       prob_ce = prob_ce,
-      pop_evpi = evpi * input$pop,
       curve_df = curve_df
     )
   })
@@ -296,11 +441,23 @@ server <- function(input, output, session) {
   pretty_money <- function(x) paste0("£", comma(round(x, 0)))
   pretty_pct <- function(x) paste0(round(100 * x, 1), "%")
   
+  output$scope_note1 <- renderText({
+    if (input$scope == "Total population") paste0("Total for ", comma(input$pop), " people") else "Per patient"
+  })
+  
+  output$evpi_note <- renderText({
+    if (input$scope == "Total population") {
+      paste0("Per patient equivalent: ", pretty_money(calc_vals()$evpi_pp))
+    } else {
+      paste0("Population equivalent: ", pretty_money(calc_vals()$evpi_alt))
+    }
+  })
+  
   output$exp_inmb <- renderText({
     pretty_money(calc_vals()$expected_inmb)
   })
   
-  output$evpi_pp <- renderText({
+  output$evpi_value <- renderText({
     pretty_money(calc_vals()$evpi)
   })
   
@@ -308,20 +465,30 @@ server <- function(input, output, session) {
     pretty_pct(calc_vals()$prob_ce)
   })
   
-  output$summary_tbl <- renderDT({
-    df <- calc_vals()$df
-    datatable(
-      data.frame(
-        Metric = c("Expected INMB", "EVPI per patient", "Probability new treatment is cost-effective"),
-        Value = c(
-          pretty_money(calc_vals()$expected_inmb),
-          pretty_money(calc_vals()$evpi),
-          pretty_pct(calc_vals()$prob_ce)
+  plot_theme <- reactive({
+    if (isTruthy(input$dark_mode)) {
+      theme_minimal(base_size = 14) +
+        theme(
+          plot.background = element_rect(fill = "#111827", colour = NA),
+          panel.background = element_rect(fill = "#111827", colour = NA),
+          legend.background = element_rect(fill = "#111827", colour = NA),
+          text = element_text(colour = "#E5E7EB"),
+          axis.text = element_text(colour = "#E5E7EB"),
+          axis.title = element_text(colour = "#E5E7EB"),
+          plot.title = element_text(colour = "#F8FAFC", face = "bold", size = 15),
+          legend.text = element_text(colour = "#E5E7EB"),
+          legend.title = element_text(colour = "#E5E7EB"),
+          panel.grid.minor = element_blank(),
+          panel.grid.major.x = element_blank()
         )
-      ),
-      rownames = FALSE,
-      options = list(dom = "t", paging = FALSE, searching = FALSE)
-    )
+    } else {
+      theme_minimal(base_size = 14) +
+        theme(
+          plot.title = element_text(face = "bold", size = 15),
+          panel.grid.minor = element_blank(),
+          panel.grid.major.x = element_blank()
+        )
+    }
   })
   
   output$nmb_plot <- renderPlot({
@@ -335,11 +502,7 @@ server <- function(input, output, session) {
         y = "Simulated draws",
         title = "Distribution of decision value"
       ) +
-      theme_minimal(base_size = 14) +
-      theme(
-        plot.title = element_text(face = "bold", size = 15),
-        panel.grid.minor = element_blank()
-      )
+      plot_theme()
   })
   
   output$wtp_curve <- renderPlot({
@@ -361,60 +524,38 @@ server <- function(input, output, session) {
         y = "£ per patient",
         title = "How value changes with WTP"
       ) +
-      theme_minimal(base_size = 14) +
-      theme(
-        plot.title = element_text(face = "bold", size = 15),
-        panel.grid.minor = element_blank(),
-        legend.position = "bottom"
-      )
+      plot_theme()
   })
   
-  output$dist_plot <- renderPlot({
+  output$scatter_plot <- renderPlot({
     df <- calc_vals()$df
-    plot_df <- df
-    plot_df$status <- ifelse(plot_df$inmb > 0, "Cost-effective", "Not cost-effective")
+    df$status <- ifelse(df$inmb > 0, "Cost-effective", "Not cost-effective")
     
-    boundary <- data.frame(
-      delta_qaly = seq(min(plot_df$delta_qaly), max(plot_df$delta_qaly), length.out = 100)
-    )
+    boundary <- data.frame(delta_qaly = seq(min(df$delta_qaly), max(df$delta_qaly), length.out = 100))
     boundary$delta_cost <- input$wtp * boundary$delta_qaly
     
-    ggplot(plot_df, aes(x = delta_qaly, y = delta_cost)) +
-      geom_point(aes(color = status), alpha = 0.35, size = 1.4) +
-      geom_line(data = boundary, aes(x = delta_qaly, y = delta_cost), inherit.aes = FALSE, linetype = "dashed", colour = "#1F4E79", linewidth = 1) +
+    ggplot(df, aes(x = delta_qaly, y = delta_cost)) +
+      geom_point(aes(color = status), alpha = 0.32, size = 1.5) +
+      geom_line(
+        data = boundary,
+        aes(x = delta_qaly, y = delta_cost),
+        inherit.aes = FALSE,
+        linetype = "dashed",
+        colour = "#1F4E79",
+        linewidth = 1
+      ) +
       geom_hline(yintercept = 0, linetype = "dotted", colour = "#7a8693") +
       geom_vline(xintercept = 0, linetype = "dotted", colour = "#7a8693") +
-      scale_color_manual(values = c("Cost-effective" = "#2C7FB8", "Not cost-effective" = "#E07A5F"), name = NULL) +
+      scale_color_manual(
+        values = c("Cost-effective" = "#2C7FB8", "Not cost-effective" = "#E07A5F"),
+        name = NULL
+      ) +
       labs(
         x = "Incremental QALYs",
         y = "Incremental cost (£)",
         title = "Simulated uncertainty around the new treatment"
       ) +
-      theme_minimal(base_size = 14) +
-      theme(
-        plot.title = element_text(face = "bold", size = 15),
-        panel.grid.minor = element_blank(),
-        legend.position = "bottom"
-      )
-  })
-  
-  output$calc_tbl <- renderDT({
-    out <- data.frame(
-      Metric = c(
-        "Expected INMB",
-        "EVPI per patient",
-        "Population EVPI",
-        "Probability new treatment is cost-effective"
-      ),
-      Value = c(
-        pretty_money(calc_vals()$expected_inmb),
-        pretty_money(calc_vals()$evpi),
-        pretty_money(calc_vals()$pop_evpi),
-        pretty_pct(calc_vals()$prob_ce)
-      )
-    )
-    
-    datatable(out, rownames = FALSE, options = list(dom = "t", paging = FALSE, searching = FALSE))
+      plot_theme()
   })
 }
 
